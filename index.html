@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Text Analyzer</title>
+</head>
+<body style="text-align:center; font-family:Arial; background:#111; color:white;">
+
+<h1>🤖 AI Text Analyzer</h1>
+
+<textarea id="text" placeholder="Enter text..." style="width:60%; height:100px;"></textarea>
+
+<br><br>
+
+<button onclick="analyze()" style="padding:10px 20px;">Analyze</button>
+
+<h2 id="result"></h2>
+
+<script>
+async function analyze() {
+    let text = document.getElementById("text").value;
+
+    let res = await fetch("/analyze", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ text: text })
+    });
+
+    let data = await res.json();
+
+    document.getElementById("result").innerText =
+        data.label + " (" + (data.score * 100).toFixed(2) + "%)";
+}
+</script>
+
+</body>
+</html>
